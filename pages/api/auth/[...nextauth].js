@@ -16,7 +16,7 @@ export default NextAuth({
                         username: credentials.username,
                         password: credentials.password,
                     }
-                  const res = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/auth`, {
+                  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user/auth`, {
                       method: "POST",
                       body: JSON.stringify(userCredentials),
                       headers: {
