@@ -19,27 +19,9 @@ export default NextAuth({
                         }
                     }   )
                   const user = await res;
-                        0
-                        return user
-                    /*const userCredentials = {
-                        username: credentials.username,
-                        password: credentials.password,
-                    }
-                  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user/auth`, {
-                      method: "POST",
-                      body: JSON.stringify(userCredentials),
-                      headers: {
-                          "Content-Type": "application/json",
-                      },
-                  },
 
-                  );
-                    const user = await res.json();
-                    if (res.ok && user) {
-                        return user;
-                    } else {
-                        return null;
-                    }*/
+                        return user
+
                 }
         }),
     ],

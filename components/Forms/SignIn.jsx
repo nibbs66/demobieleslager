@@ -31,28 +31,11 @@ export default function SignIn() {
                 })
                 if(res.status === 200) {
                     formData.current.reset()
-                    router.push(`/admin/producten?page=1`)
+                    router.push(`/admin/producten?page=1&category=title&order=asc`)
 
                 }
 
                 })
-
-
-
-        /*const res = await signIn('credentials',{
-            username: username.value,
-            password: password.value,
-            redirect: false,
-        })
-
-
-            if(res.status === 200) {
-                formData.current.reset()
-                router.push(`/admin/producten?page=1`)
-
-            }
-
-         */
 
     }
     return (
