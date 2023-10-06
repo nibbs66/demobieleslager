@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model mails {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  firstName String
+  lastName  String
+  email     String
+  phone     String
+  subject   String
+  message   String
+  date      DateTime?
+  createAt  DateTime? @db.Date
+  updateAt  DateTime? @db.Date
+
+  @@map("mails")
+}
+
+model orders {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model products {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  Aanbiedingen Boolean?
+  v            Int?      @map("__v")
+  categories   String[]
+  createdAt    DateTime? @db.Date
+  img          String?
+  inStock      Boolean
+  per          String
+  /// Multiple data types found: Float: 79.1%, Int: 20.9% out of 86 sampled entries
+  price        Json
+  title        String    @unique(map: "title_1")
+  updatedAt    DateTime? @db.Date
+}
+
+model users {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  v         Int       @map("__v")
+  createdAt DateTime  @db.Date
+  email     String    @unique(map: "email_1")
+  firstName String
+  isAdmin   Boolean
+  lastName  String
+  password  String
+  sessions  Session[]
+  key       Key[]
+  updatedAt DateTime  @db.Date
+  username  String    @unique(map: "username_1")
+  Account   Account[]
+
+  @@map("users")
+}
+
+model Session {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken   String   @unique
+  user_id        String   @db.ObjectId
+  active_expires BigInt
+  idle_expires   BigInt
+  expires        DateTime
+  user           users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("sessions")
+}
+
+model Key {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  user_id         String @db.ObjectId
+  user            users? @relation(fields: [user_id], references: [id])
+  hashed_password String
+
+  @@index([user_id])
+  @@map("keys")
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  token_type        String?
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  id_token          String? @db.String
+  scope             String?
+  session_state     String?
+  expires_at        Int?
+
+  user   users  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model VerificationToken {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}
