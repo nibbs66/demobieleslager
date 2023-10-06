@@ -3,8 +3,11 @@ import Admin from "../../components/layout/Admin";
 
 import SignIn from "../../components/Forms/SignIn";
 import Card from "../../components/Cards/Card"
+import {useSession} from "next-auth/react";
 
 const Home = () => {
+
+
     const [checked, setChecked] = React.useState(false);
     return (
         <div className={` h-screen mx-auto max-w-7xl `}>

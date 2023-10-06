@@ -11,8 +11,17 @@ export default NextAuth({
             id: 'credentials',
                 name: 'Credentials',
                 authorize: async function(credentials, req) {
+                        console.log(credentials)
 
-                    const userCredentials = {
+                    const res = await prisma.users.findUnique({
+                        where: {
+                            id: credentials.id,
+                        }
+                    }   )
+                  const user = await res;
+                        0
+                        return user
+                    /*const userCredentials = {
                         username: credentials.username,
                         password: credentials.password,
                     }
@@ -22,14 +31,15 @@ export default NextAuth({
                       headers: {
                           "Content-Type": "application/json",
                       },
-                  }
+                  },
+
                   );
                     const user = await res.json();
                     if (res.ok && user) {
                         return user;
                     } else {
                         return null;
-                    }
+                    }*/
                 }
         }),
     ],

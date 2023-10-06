@@ -28,7 +28,7 @@ const Id = ({product}) => {
     }
 export const getServerSideProps = async (ctx) => {
     const session = await getSession({req: ctx.req})
-    if (!session) {
+    if (!session?.token?.isAdmin) {
         return {
             redirect: {
                 destination: '/admin/',   //removed trailing slash feb17

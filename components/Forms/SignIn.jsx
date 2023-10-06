@@ -11,8 +11,35 @@ export default function SignIn() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const {username, password} = formData.current
+       await fetch(`/api/user/auth`, {
+            method: "POST",
+            body: JSON.stringify({ username: username.value,
+                password: password.value}),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+        ).then((res) => res.json())
+            .then(async (data) => {
 
-        const res = await signIn('credentials',{
+              const res =  await signIn('credentials', {
+                    id: data.id,
+                    username: data.username,
+                    email: data.email,
+                    isAdmin: data.isAdmin,
+                    redirect: false,
+                })
+                if(res.status === 200) {
+                    formData.current.reset()
+                    router.push(`/admin/producten?page=1`)
+
+                }
+
+                })
+
+
+
+        /*const res = await signIn('credentials',{
             username: username.value,
             password: password.value,
             redirect: false,
@@ -24,6 +51,8 @@ export default function SignIn() {
                 router.push(`/admin/producten?page=1`)
 
             }
+
+         */
 
     }
     return (
